@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  picture   String?
+  createdAt DateTime @default(now())
+
+  tasklists Tasklist[]
+  tags      Tag[]
+  stickys   Sticky[]
+}
+
+model Tasklist {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  color     String
+  tasks     Task[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  dueDate     DateTime
+  tags        Tag[]
+
+  tasklist   Tasklist @relation(fields: [tasklistId], references: [id], onDelete: Cascade)
+  tasklistId String
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String
+  color String
+  tasks Task[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model Sticky {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  color       String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
