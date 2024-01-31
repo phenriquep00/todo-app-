@@ -9,7 +9,7 @@ interface StickyContentProps {
 }
 
 export function StickyContent({ user }: StickyContentProps) {
-    const [stickys, setStickys] = useState<Sticky[]>([])
+    const [stickys, setStickys] = useState<Sticky[]>([]);
 
     useEffect(() => {
         handleGetStickys()
@@ -45,11 +45,15 @@ export function StickyContent({ user }: StickyContentProps) {
             <header className="h-24 flex items-center">
                 <h1 className="font-fredoka text-4xl">Sticky Wall</h1>
             </header>
-            <section className="h-[calc(100vh-96px)] flex flex-wrap gap-3 p-8 rounded border overflow-x-hidden overflow-y-auto scrollbar-thumb-slate-700 scrollbar-track-transparent scrollbar-thin">
+            <section className="bg-black h-[calc(100vh-96px)] flex flex-wrap gap-3 p-8 rounded border overflow-x-hidden overflow-y-auto scrollbar-thumb-slate-700 scrollbar-track-transparent scrollbar-thin">
                 {
                     stickys && stickys.map((sticky: Sticky) => {
                         return (
-                            <StickyCard key={sticky.id} sticky={sticky} updateStickys={handleGetStickys} />
+                            <StickyCard 
+                                key={sticky.id} 
+                                sticky={sticky} 
+                                updateStickys={handleGetStickys} 
+                            />
                         )
                     })
                 }
